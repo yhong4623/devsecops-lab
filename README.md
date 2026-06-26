@@ -34,8 +34,8 @@ gitleaks detect --source . -v
 # 2. SCA 相依性掃描（找有 CVE 的套件）
 pip-audit -r requirements.txt
 
-# 3. SAST 靜態分析（自定義規則）
-semgrep --config=rules/ .
+# 3. SAST 靜態分析
+semgrep --config=p/python .
 ```
 
 ---
@@ -66,7 +66,8 @@ pre-commit run --all-files
 | 漏洞類型 | 位置 | 工具 | 說明 |
 |---------|------|------|------|
 | Hardcoded AWS Key | `app/config.py:4-5` | gitleaks | AWS Access Key ID 和 Secret |
-| SQL Injection | `app/database.py:8` | semgrep | 字串拼接直接帶入 SQL |
+| Code Injection | `app/main.py:17` | semgrep | eval() 直接執行使用者輸入 |
+| SQL Injection | `app/database.py:17` | 閱讀教材 | 字串拼接帶入 SQL（對照好寫法） |
 | 有 CVE 的套件 | `requirements.txt` | pip-audit | Pillow 9.0.0、requests 2.6.0 等 |
 | Debug 模式開啟 | `app/config.py:11` | semgrep | `DEBUG = True` 不應上 production |
 

@@ -1,11 +1,12 @@
+title = "DevSecOps Lab Gitleaks Config"
+
 [extend]
 useDefault = true
 
-[[allowlists]]
-description = "課程教學用假資料，排除誤報"
-regexes = [
-  '''EXAMPLE''',
-  '''AKIAIOSFODNN7EXAMPLE''',
-  '''wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY''',
-  '''super-secret-jwt-key-do-not-share''',
+# 排除 README.md 裡對範例 key 的說明文字（避免誤報）
+# app/config.py 的 hardcoded key 保留，讓 gitleaks detect 能抓到
+[allowlist]
+description = "排除 README 文件中的範例說明"
+paths = [
+  '''README\.md''',
 ]
