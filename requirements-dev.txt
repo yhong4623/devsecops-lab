@@ -1,6 +1,6 @@
 # 課程工具（由 devcontainer 安裝，不是應用程式依賴）
 -r requirements.txt
 pip-audit
-semgrep
+semgrep>=1.50.0
 pre-commit
 pytest
