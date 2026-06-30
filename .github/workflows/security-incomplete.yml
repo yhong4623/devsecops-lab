@@ -1,8 +1,8 @@
-name: CI Pipeline（不完整版）
+name: CI (Incomplete - Phase 1 Audit Target)
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev]
   pull_request:
     branches: [main]
 
@@ -10,24 +10,25 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ============================================================
+      # Phase 2 Step 2：在這裡加入你找到的安全步驟
+      # 提示：你剛才手動跑了三個工具——怎麼把它們變成 CI 的一部分？
+      # ============================================================
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt pytest
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
 
-      # 功能測試
       - name: Run tests
-        run: python -m pytest tests/ -v
-
-      # ❓ 這裡缺少了什麼安全步驟？
-      # 學員任務：對照 security-complete.yml，找出哪些安全閘門沒有加入
-      #
-      # 提示：
-      # 1. 有沒有掃描程式碼裡是否藏了密鑰？
-      # 2. 有沒有檢查 requirements.txt 裡的套件是否有已知 CVE？
-      # 3. 有沒有做靜態程式碼分析（SAST）找出程式碼漏洞？
+        run: pytest tests/ -v

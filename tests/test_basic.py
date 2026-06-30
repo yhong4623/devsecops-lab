@@ -1,9 +1,4 @@
 import pytest
-import sys
-import os
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from app.main import app
 
 
@@ -14,15 +9,13 @@ def client():
         yield client
 
 
+def test_index(client):
+    resp = client.get("/")
+    assert resp.status_code == 200
+
+
 def test_health(client):
-    response = client.get("/health")
-    assert response.status_code == 200
-    data = response.get_json()
-    assert data["status"] == "ok"
-
-
-def test_calc_endpoint(client):
-    response = client.get("/calc?expr=1%2B1")
-    assert response.status_code == 200
-    data = response.get_json()
-    assert data["result"] == 2
+    resp = client.get("/health")
+    assert resp.status_code == 200
+    data = resp.get_json()
+    assert data["status"] == "healthy"

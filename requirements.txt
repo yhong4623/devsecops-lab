@@ -1,8 +1,4 @@
-# 應用程式依賴（刻意使用舊版，含已知 CVE）
-# pip-audit -r requirements.txt 會掃這些套件
 Flask==2.0.1
 Werkzeug==2.0.1
-# urllib3 1.26.5: CVE-2023-45803, CVE-2024-37891 (header injection, credential leakage)
-urllib3==1.26.5
-# PyYAML 5.3.1: CVE-2020-14343 (arbitrary code execution via yaml.load)
-PyYAML==5.3.1
+Pillow==8.0.0
+requests==2.25.0

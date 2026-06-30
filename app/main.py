@@ -1,29 +1,35 @@
 from flask import Flask, request, jsonify
-from app.database import get_user
-from app.config import DEBUG
+from app.database import get_user, init_db
+import sqlite3
 
 app = Flask(__name__)
 
 
-@app.route("/user")
-def user():
-    username = request.args.get("username")
-    result = get_user(username)
-    return jsonify({"user": result})
+@app.route("/")
+def index():
+    return jsonify({"status": "ok", "message": "devsecops-lab running"})
 
 
-@app.route("/calc")
-def calc():
-    expr = request.args.get("expr")
-    # 預埋漏洞：eval() 直接執行使用者輸入，Semgrep 應該抓到這行
-    result = eval(expr)
-    return jsonify({"result": result})
+@app.route("/user/<int:user_id>")
+def user(user_id):
+    result = get_user(user_id)
+    if result:
+        return jsonify({"user": result})
+    return jsonify({"error": "not found"}), 404
+
+
+@app.route("/eval")
+def run_eval():
+    expr = request.args.get("expr", "")
+    result = eval(expr)   # ⚠️ 危險：直接 eval 使用者輸入（教學用途）
+    return jsonify({"result": str(result)})
 
 
 @app.route("/health")
 def health():
-    return jsonify({"status": "ok"})
+    return jsonify({"status": "healthy"})
 
 
 if __name__ == "__main__":
-    app.run(debug=DEBUG)
+    init_db()
+    app.run(host="0.0.0.0", port=5000)

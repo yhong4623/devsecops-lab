@@ -1,7 +1,0 @@
-# 課程工具（由 devcontainer 安裝，不是應用程式依賴）
-# 注意：刻意不引入 requirements.txt，避免舊版 CVE 套件與工具版本衝突
-# pip-audit 透過 -r requirements.txt 掃描檔案，不需要實際安裝這些舊套件
-pip-audit
-semgrep>=1.76.0
-pre-commit
-pytest

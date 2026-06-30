@@ -1,12 +1,12 @@
-# 資料庫設定
-DATABASE_URL = "sqlite:///app.db"
+import os
 
-# AWS 設定（刻意 hardcoded，這是課程預埋的漏洞）
+# Application configuration
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
+DEBUG = os.environ.get("DEBUG", "false").lower() == "true"
+
+# ⚠️  教學用途：以下使用 AWS 官方文件範例 key，不是真實憑證
 AWS_ACCESS_KEY_ID = "AKIAIOSFODNN7EXAMPLE"
 AWS_SECRET_ACCESS_KEY = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+AWS_REGION = "us-east-1"
 
-# JWT Secret
-JWT_SECRET = "super-secret-jwt-key-do-not-share"
-
-# Debug 模式（不應該在 production 開啟）
-DEBUG = True
+DATABASE_PATH = os.environ.get("DATABASE_PATH", "lab.db")
