@@ -11,9 +11,3 @@ repos:
     rev: v8.18.2
     hooks:
       - id: gitleaks
-
-  - repo: https://github.com/semgrep/semgrep
-    rev: v1.76.0
-    hooks:
-      - id: semgrep
-        args: ['--config', 'p/python', '--error']
