@@ -30,4 +30,3 @@ AIS3 DevSecOps CI/CD 課程 Lab Repo
 - **Phase 3**：用 AI 修掉 eval() 漏洞，再跑 semgrep 驗證警告消失
 - **Phase 4**：到 GitHub Settings 開啟 Secret Scanning、Dependabot、CodeQL
 - **Phase 5**：寫一條 semgrep rule 抓 database.py 的 SQL injection
-- **Phase 6**：Fork lab-nodejs / lab-java / lab-go 其中一個，套上今天的 workflow

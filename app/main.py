@@ -32,4 +32,4 @@ def health():
 
 if __name__ == "__main__":
     init_db()
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000)  # nosemgrep: python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host -- Codespaces需要綁定0.0.0.0才能對外access，非production環境

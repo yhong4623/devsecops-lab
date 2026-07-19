@@ -4,8 +4,8 @@ title = "devsecops-lab gitleaks config"
 useDefault = true
 
 [allowlist]
-  description = "Suppress false positives from docs and instructor materials"
-  paths = [
-    "README\\.md",
-    "instructor/",
+  description = "Allowlist for known test credentials"
+  regexes = [
+    "AKIAIOSFODNN7EXAMPLE",
+    "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
   ]
