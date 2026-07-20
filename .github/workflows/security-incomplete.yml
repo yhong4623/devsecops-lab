@@ -16,8 +16,16 @@ jobs:
           fetch-depth: 0
 
       # ============================================================
-      # Phase 2 Step 2：在這裡加入你找到的安全步驟
-      # 提示：你剛才手動跑了三個工具——怎麼把它們變成 CI 的一部分？
+      # Phase 2 Step 2：在這裡加入你剛才手動跑過的安全步驟，變成 CI 的一部分。
+      # 需要三個步驟（gitleaks 已經在 pre-commit 層處理，這裡不用重跑）：
+      #   1. SCA：pip-audit 掃 requirements.txt
+      #      -- 這個 lab 的 requirements.txt 故意留舊版套件，一定會抓到 CVE、一定非 0 結束，
+      #         記得加 continue-on-error: true，不然後面的 SAST 步驟永遠沒機會跑。
+      #   2. SAST：semgrep --config=p/python --config=p/owasp-top-ten，
+      #      輸出成 --json --output=semgrep-report.json（先不要加 --config=custom-rules/，
+      #      那是 Phase 5 你自己寫規則之後才會有的目錄）
+      #   3. 把 semgrep-report.json 交給 scripts/security_gate.py 判斷要不要擋這個 job
+      #      -- 這支腳本已經在 repo 裡了，看它開頭的註解了解判斷邏輯（ERROR 擋、WARNING/INFO 只警告）
       # ============================================================
 
       - name: Set up Python
