@@ -66,5 +66,15 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
 
+      - name: SCA - Dependency Scan (pip-audit)
+        continue-on-error: true
+        run: pip install pip-audit && pip-audit -r requirements.txt
+
+      - name: SAST - Static Analysis (semgrep)
+        run: |
+          pip install semgrep
+          semgrep --config=p/python --config=p/owasp-top-ten --json --output=semgrep-report.json . || true
+          python3 scripts/securi
+
       - name: Run tests
         run: pytest tests/ -v
