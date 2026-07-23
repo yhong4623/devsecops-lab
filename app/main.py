@@ -1,8 +1,39 @@
 from flask import Flask, request, jsonify
 from app.database import get_user, init_db
+import ast
 import sqlite3
 
 app = Flask(__name__)
+
+
+def safe_eval(expr: str):
+    """Evaluate only safe Python literals and basic arithmetic expressions."""
+    node = ast.parse(expr, mode="eval")
+
+    allowed_nodes = {
+        ast.Expression,
+        ast.Constant,
+        ast.BinOp,
+        ast.UnaryOp,
+        ast.Add,
+        ast.Sub,
+        ast.Mult,
+        ast.Div,
+        ast.FloorDiv,
+        ast.Mod,
+        ast.Pow,
+        ast.USub,
+        ast.UAdd,
+        ast.Load,
+        ast.Tuple,
+        ast.List,
+    }
+
+    for child in ast.walk(node):
+        if type(child) not in allowed_nodes:
+            raise ValueError("expression contains unsafe operations")
+
+    return eval(compile(node, filename="<ast>", mode="eval"), {"__builtins__": {}}, {})
 
 
 @app.route("/")
@@ -21,7 +52,10 @@ def user(user_id):
 @app.route("/eval")
 def run_eval():
     expr = request.args.get("expr", "")
-    result = eval(expr)   # ⚠️ 危險：直接 eval 使用者輸入（教學用途）
+    try:
+        result = safe_eval(expr)
+    except Exception:
+        return jsonify({"error": "invalid expression"}), 400
     return jsonify({"result": str(result)})
 
 

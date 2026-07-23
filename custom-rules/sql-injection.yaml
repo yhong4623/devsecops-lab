@@ -1,0 +1,7 @@
+rules:
+- id: sql-fstring-injection
+  message: Avoid constructing SQL queries with f-strings. Use parameterized queries instead to prevent SQL injection.
+  severity: ERROR
+  languages: [python]
+  pattern: |
+    query = f"...{$UNSAFE}..."

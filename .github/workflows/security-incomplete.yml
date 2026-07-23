@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
         with:
           fetch-depth: 0
 
@@ -57,7 +57,7 @@ jobs:
       # ─────────────────────────────────────────
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.11"
 
@@ -74,7 +74,7 @@ jobs:
         run: |
           pip install semgrep
           semgrep --config=p/python --config=p/owasp-top-ten --json --output=semgrep-report.json . || true
-          python3 scripts/securi
+          python3 scripts/security_gate.py semgrep-report.json
 
       - name: Run tests
         run: pytest tests/ -v
